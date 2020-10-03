@@ -20,9 +20,12 @@ public class CameraMovement : MonoBehaviour {
 
     Vector3 focusPoint;
     Vector2 rotationAngles = new Vector2(10f, 0f);
+    float maxVerticalAngle = 90.0f;
+    float minVerticalAngle = -90.0f;
 
     void Awake() {
         focusPoint = focus.position;
+        transform.localRotation = Quaternion.Euler(rotationAngles);
     }
 
     void LateUpdate() {
@@ -31,6 +34,8 @@ public class CameraMovement : MonoBehaviour {
 
         CalculateFocusPoint();
         ManualRotation();
+        ClampAngles();
+
         Vector3 altitudeAdjust = new Vector3(0.0f, 1.0f, 0.0f);
         Quaternion lookRotation = Quaternion.Euler(rotationAngles);
         Vector3 lookDirection = lookRotation * Vector3.forward;
@@ -59,5 +64,12 @@ public class CameraMovement : MonoBehaviour {
         const float epsilon = 0.001f;
         if (input.x < -epsilon || epsilon < input.x || input.y < -epsilon || epsilon < input.y)
             rotationAngles += rotationSpeed * Time.unscaledDeltaTime * input;
+    }
+
+    void ClampAngles() {
+        rotationAngles.x = Mathf.Clamp(rotationAngles.x, minVerticalAngle, maxVerticalAngle);
+        
+        if (rotationAngles.y < 0.0f) rotationAngles.y += 360.0f;
+        if (rotationAngles.y >= 360.0f) rotationAngles.y -= 360.0f;
     }
 }
