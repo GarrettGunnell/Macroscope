@@ -15,19 +15,27 @@ public class CameraMovement : MonoBehaviour {
     [SerializeField, Range(0f, 1f)]
     float focusCentering = 0.5f;
 
-    public float altitude = 0.0f;
+    [SerializeField, Range(1f, 360f)]
+    float rotationSpeed = 90f;
 
     Vector3 focusPoint;
+    Vector2 rotationAngles = new Vector2(10f, 0f);
 
     void Awake() {
         focusPoint = focus.position;
     }
 
     void LateUpdate() {
+        if (Input.GetKeyDown(KeyCode.Z)) Cursor.lockState = CursorLockMode.Locked;
+        if (Input.GetKeyDown(KeyCode.X)) Cursor.lockState = CursorLockMode.None;
+
         CalculateFocusPoint();
-        Vector3 lookDirection = transform.forward * distance;
-        lookDirection.y -= altitude;
-        transform.localPosition = focusPoint - lookDirection;        
+        ManualRotation();
+        Vector3 altitudeAdjust = new Vector3(0.0f, 1.0f, 0.0f);
+        Quaternion lookRotation = Quaternion.Euler(rotationAngles);
+        Vector3 lookDirection = lookRotation * Vector3.forward;
+        Vector3 lookPosition = (focusPoint + altitudeAdjust) - lookDirection * distance;
+        transform.SetPositionAndRotation(lookPosition, lookRotation);        
     }
 
     void CalculateFocusPoint() {
@@ -44,5 +52,12 @@ public class CameraMovement : MonoBehaviour {
         }
 
         focusPoint = Vector3.Lerp(targetPoint, focusPoint, t);
+    }
+
+    void ManualRotation() {
+        Vector2 input = new Vector2(Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"));
+        const float epsilon = 0.001f;
+        if (input.x < -epsilon || epsilon < input.x || input.y < -epsilon || epsilon < input.y)
+            rotationAngles += rotationSpeed * Time.unscaledDeltaTime * input;
     }
 }
