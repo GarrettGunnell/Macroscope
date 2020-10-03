@@ -15,6 +15,8 @@ public class CameraMovement : MonoBehaviour {
     [SerializeField, Range(0f, 1f)]
     float focusCentering = 0.5f;
 
+    public float altitude = 0.0f;
+
     Vector3 focusPoint;
 
     void Awake() {
@@ -23,8 +25,9 @@ public class CameraMovement : MonoBehaviour {
 
     void LateUpdate() {
         CalculateFocusPoint();
-        Vector3 lookDirection = transform.forward;
-        transform.localPosition = focusPoint - lookDirection * distance;        
+        Vector3 lookDirection = transform.forward * distance;
+        lookDirection.y -= altitude;
+        transform.localPosition = focusPoint - lookDirection;        
     }
 
     void CalculateFocusPoint() {
