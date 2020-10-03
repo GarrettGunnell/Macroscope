@@ -7,6 +7,12 @@ public class PlayerMovement : MonoBehaviour {
     Transform playerInputSpace = default;
     
     public float velocity = 3.0f;
+    private float time = 0.0f;
+    private Quaternion inertialFrameRotation;
+
+    void Awake() {
+        inertialFrameRotation = transform.rotation;
+    }
 
     void Update() {
         Vector2 input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
@@ -22,7 +28,18 @@ public class PlayerMovement : MonoBehaviour {
         } else
             direction = new Vector3(input.x, 0.0f, input.y);
         
-        direction.y = 0.0f;
+        InterpolateRotationToCamera();
         transform.localPosition += direction * velocity * Time.deltaTime;
+    }
+
+    void InterpolateRotationToCamera() {
+        Vector3 targetRotation = playerInputSpace.rotation.eulerAngles;
+        targetRotation.x = 0.0f;
+        transform.rotation = Quaternion.Slerp(inertialFrameRotation, Quaternion.Euler(targetRotation), time);
+        time += Time.deltaTime;
+        if (transform.rotation.eulerAngles == targetRotation) {
+            inertialFrameRotation = Quaternion.Euler(targetRotation);
+            time = 0;
+        }
     }
 }
