@@ -15,7 +15,7 @@ public class CameraMovement : MonoBehaviour {
     [SerializeField, Range(0f, 1f)]
     float focusCentering = 0.5f;
 
-    [SerializeField, Range(1f, 360f)]
+    [SerializeField, Range(1f, 1000f)]
     float rotationSpeed = 90f;
 
     Vector3 focusPoint;
