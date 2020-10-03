@@ -313,9 +313,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   focus: {fileID: 1597317568}
   distance: 7
-  focusRadius: 2
-  focusCentering: 0.75
-  altitude: 2
+  focusRadius: 1
+  focusCentering: 0.896
+  rotationSpeed: 360
 --- !u!1 &1597317564
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,6 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbf66db9f935ff4f9b121879d6ddf28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInputSpace: {fileID: 456321306}
   velocity: 3
 --- !u!1 &1806036047
 GameObject:

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
+    [SerializeField]
+    Transform playerInputSpace = default;
+    
     public float velocity = 3.0f;
 
     void Update() {
