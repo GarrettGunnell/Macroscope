@@ -8,9 +8,9 @@ public class PlayerMovement : MonoBehaviour {
 
     void Update() {
         direction.x = Input.GetAxis("Horizontal");
-        direction.y = transform.localPosition.y;
+        direction.y = 0.0f;
         direction.z = Input.GetAxis("Vertical");
 
-        transform.localPosition = direction;
+        transform.localPosition += direction;
     }
 }
