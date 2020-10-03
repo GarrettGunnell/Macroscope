@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+public class PlayerMovement : MonoBehaviour {
+    public float velocity = 1.0f;
+    private Vector2 direction;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void Update() {
+        direction.x = Input.GetAxis("Horizontal");
+        direction.y = Input.GetAxis("Vertical");
+
+        transform.localPosition = new Vector3(direction.x, transform.localPosition.y, direction.y);
     }
 }
