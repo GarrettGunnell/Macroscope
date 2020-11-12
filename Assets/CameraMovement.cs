@@ -7,7 +7,7 @@ public class CameraMovement : MonoBehaviour {
     Transform focus = default;
 
     void Awake() {
-        focusPoint = focus.position;
+
     }
 
     void LateUpdate() {
