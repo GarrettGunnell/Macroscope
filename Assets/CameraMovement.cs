@@ -12,7 +12,7 @@ public class CameraMovement : MonoBehaviour {
     public float rateOfRecenter = 0.5f;
 
     [Min(0.0f)]
-    float alignDelay = 5.0f;
+    public float alignDelay = 5.0f;
 
     [Range(1.0f, 360.0f)]
     public float rotationSpeed = 90.0f;
@@ -24,9 +24,8 @@ public class CameraMovement : MonoBehaviour {
     public float verticalSensitivity = 1.0f;
 
     private Transform focus;
-    private Vector3 focusPoint, previousFocusPoint;
+    private Vector3 focusPoint;
     private Vector2 viewAngles = new Vector2(45.0f, 0.0f);
-    private float lastManualRotationTime;
 
     void Awake() {
         focus = GameObject.FindWithTag("Player").transform;
@@ -40,10 +39,9 @@ public class CameraMovement : MonoBehaviour {
         Quaternion lookRotation;
 
         UpdateFocusPoint();
-        if (HandleInput() || AutomaticRotation()) {
+        if (HandleInput()) {
             ConstrainAngles();
             lookRotation = Quaternion.Euler(viewAngles);
-            lastManualRotationTime = Time.unscaledTime;
         } else lookRotation = transform.localRotation;
 
         Vector3 lookDirection = lookRotation * Vector3.forward;
@@ -52,7 +50,6 @@ public class CameraMovement : MonoBehaviour {
     }
 
     void UpdateFocusPoint() {
-        previousFocusPoint = focusPoint;
         Vector3 targetPoint = focus.position;
         targetPoint.y += 1;
         if (focusRadius > 0.0f) {
@@ -82,27 +79,6 @@ public class CameraMovement : MonoBehaviour {
         return false;
     }
 
-    bool AutomaticRotation() {
-        if (Time.unscaledTime - lastManualRotationTime < alignDelay) {
-            return false;
-        }
-
-        Vector2 movement = new Vector2(focusPoint.x - previousFocusPoint.x, focusPoint.z - previousFocusPoint.z);
-        float movementDeltaSqr = movement.sqrMagnitude;
-        if (movementDeltaSqr < 0.000001f)
-            return false;
-
-        float headingAngle = GetAngle(movement / Mathf.Sqrt(movementDeltaSqr));
-        float deltaAbs = Mathf.Abs(Mathf.DeltaAngle(viewAngles.y, headingAngle));
-        float rotationChange = rotationSpeed * Mathf.Min(Time.unscaledDeltaTime, movementDeltaSqr);
-        if (deltaAbs < 45.0f)
-            rotationChange *= deltaAbs / 45.0f;
-        else if (180.0f - deltaAbs < 45.0f)
-            rotationChange *= (180.0f - deltaAbs) / 45.0f;
-        viewAngles.y = Mathf.MoveTowardsAngle(viewAngles.y, headingAngle, rotationChange);
-
-        return true;
-    }
 
     void ConstrainAngles() {
         viewAngles.x = Mathf.Clamp(viewAngles.x, -90, 90);
