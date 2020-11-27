@@ -36,6 +36,9 @@ public class CameraMovement : MonoBehaviour {
     }
 
     void LateUpdate() {
+        if (Input.GetKeyDown(KeyCode.Z)) Cursor.lockState = CursorLockMode.Locked;
+        if (Input.GetKeyDown(KeyCode.X)) Cursor.lockState = CursorLockMode.None;
+        
         Quaternion lookRotation;
 
         UpdateFocusPoint();

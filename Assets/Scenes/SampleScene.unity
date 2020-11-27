@@ -311,6 +311,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9bb682f1cba1eb4f94be703f81bff27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  focusRadius: 1
+  distance: 6
+  rateOfRecenter: 0.847
+  alignDelay: 5
+  rotationSpeed: 90
+  horizontalSensitivity: 10
+  verticalSensitivity: 5
 --- !u!1 &927271628
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,6 +347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffbf66db9f935ff4f9b121879d6ddf28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  velocity: 10
 --- !u!4 &927271630
 Transform:
   m_ObjectHideFlags: 0
@@ -459,7 +467,6 @@ GameObject:
   - component: {fileID: 1597317568}
   - component: {fileID: 1597317567}
   - component: {fileID: 1597317566}
-  - component: {fileID: 1597317565}
   m_Layer: 0
   m_Name: PlayerModel
   m_TagString: Untagged
@@ -467,19 +474,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &1597317565
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1597317564}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1597317566
 MeshRenderer:
   m_ObjectHideFlags: 0
